@@ -1,0 +1,50 @@
+#standings {
+  width: 804px;
+  margin: 0 auto;
+}
+
+.conference {
+  width: 350px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 25px;
+}
+.blockname {
+  height: 30px;
+  text-align: center;
+}
+.blockname span {
+  line-height: 30px;
+  color: #FFF;
+  font-weight: bold;
+}
+.confname {
+  background-color: #3D3D3D;
+}
+.division {
+  margin-top: 10px;
+}
+.divname {
+  background-color: #707070;
+}
+
+table {
+  margin: 0 auto;
+}
+tr {
+  /* height: 20px; */
+}
+td {
+  line-height: 30px;
+  vertical-align: middle;
+}
+td img {
+  vertical-align: middle;
+}
+td a {
+  text-decoration: none;
+  color: #000;
+}
+td span {
+  line-height: 30px;
+}

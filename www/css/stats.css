@@ -1,0 +1,45 @@
+table {
+  border-spacing: 0;
+}
+td {
+  padding: 2px 5px;
+}
+
+#leaders {
+  /* width: 1000px; */
+  margin: 10px auto;
+}
+.player {width: 175px;}
+.team {width: 60px;}
+.stat-sm {width: 25px;}
+.stat-md {width: 35px;}
+.stat-lg {width: 50px;}
+
+tr:hover {
+  background-color: lightgrey;
+}
+
+#page-selectors {
+  margin: 10px 0;
+  text-align: center;
+}
+#page-selectors a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  color: black;
+}
+
+#page-selectors a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+#page-area {
+  margin: 0 10px;
+}

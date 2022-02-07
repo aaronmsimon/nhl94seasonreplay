@@ -1,0 +1,93 @@
+body {
+  font-family: calibri;
+  overflow-x: hidden;
+}
+a {
+  text-decoration: none;
+}
+.hidden {display: none;}
+.right {
+  text-align: right;
+}
+.nhl94 {
+  font-family: 'NHL94';
+}
+
+#allwrapper {
+  width: 1024px;
+  margin: 0 auto;
+}
+#zamboni-area {
+  width: 171px;
+  height: 95px;
+}
+#zamboni {
+  height: 95px;
+  background: url(../images/zamboni.gif) no-repeat center top;
+  position: relative;
+}
+.gif {
+  display: inline-block;
+}
+#header {
+  padding: 90px 0 15px;
+  font-size: 55px;
+  text-align: center;
+  background: url(../images/banner_top.png) no-repeat center top;
+  background-size: 1024px 78px;
+}
+#header-items {
+  width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+#leftgif {
+  width: 70px;
+  height: 70px;
+  margin-right: 20px;
+  background: url(../images/goalie.gif) no-repeat center top;
+}
+#rightgif {
+  width: 60px;
+  height: 70px;
+  margin-left: 20px;
+  background: url(../images/skating.gif) no-repeat center top;
+}
+#center {
+  min-height: 650px;
+}
+#footer {
+  height: 82px;
+  background: url(../images/banner_bot.png) no-repeat center top;
+  background-size: 1024px 82px;
+}
+
+.nav {
+  text-align: center;
+}
+#nav-main {
+  font-size: 15px;
+  background-color: black;
+}
+#nav-main a {
+  padding: 10px;
+  color: white;
+  display: inline-block;
+}
+#nav-main a:hover {
+  color: yellow;
+}
+
+#nav-sub {
+  font-size: 10px;
+  background-color: gray;
+}
+#nav-sub a {
+  padding: 10px;
+  color: black;
+  display: inline-block;
+}
+#nav-sub a:hover {
+  color: yellow;
+}

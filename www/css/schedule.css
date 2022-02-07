@@ -1,0 +1,46 @@
+div.ui-datepicker {
+  font-size: 25px;
+}
+
+#upcoming-games {
+  width: 500px;
+  margin: 25px auto;
+}
+
+.gamedate {
+  padding-right: 10px;
+}
+
+tr {
+  line-height: 30px;
+}
+
+#game {
+  width: 440px;
+  margin: 25px auto 35px;
+  display: flex;
+  align-items: center;
+  font-size: 50px;
+}
+.side {
+  margin: 0 35px;
+  font-size: 20px;
+  text-align: center;
+}
+.active {
+  border-bottom: 5px solid red;
+}
+.team-info {
+  font-size: 15px;
+}
+
+.button-row {
+  width: 300px;
+  height: 50px;
+  margin: 15px auto;
+  text-align: center;
+}
+.button-row button {
+  width: 200px;
+  height: 35px;
+}
