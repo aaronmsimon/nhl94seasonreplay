@@ -39,6 +39,36 @@
       $query = $this->db->get();
       return $query->result();
     }
+    public function getNextGames($dayCount, $currentDate) {
+        $dates = $this->getNextDates($dayCount, $currentDate);
+        foreach ($dates as $date) {
+            $games = $this->getGamesByDate($date);
+            array_push($date,$games);
+        }
+        print_r($dates);
+    }
+    public function getNextDates($dayCount, $currentDate) {
+        // $dateFrom = date_format($currentDate,'Y-m-d');
+        // $dateTo = date_format(date_add($currentDate,date_interval_create_from_date_string("$dayCount days")),'Y-m-d');
+        // $this->db->select('gamedate');
+        // $this->db->distinct();
+        // $this->db->from('schedule AS s');
+        // $this->db->where("s.gamedate BETWEEN '$dateFrom' AND '$dateTo'");
+        // $query = $this->db->get();
+        // return $query->result();
+        $dateArray = array();
+        for ($i = 0; $i < $dayCount; $i++) {
+            array_push($dateArray,date_format(date_add(date_create($currentDate),date_interval_create_from_date_string("$i days")),'Y-m-d'));
+        }
+        return $dateArray;
+    }
+    public function getGamesByDate($gameDate) {
+        $this->db->select();
+        $this->db->from('schedule');
+        $this->db->where('gamedate',$gameDate);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function getCurrentGame() {
       $myfile = fopen($this->filename,'r') or die('Unable to open file');
