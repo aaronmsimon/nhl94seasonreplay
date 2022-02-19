@@ -8,14 +8,41 @@
     }
 
     public function getGameStats($scheduleid) {
-      $this->db->select("g.*,TIME_FORMAT(SEC_TO_TIME(g.ppseconds),'%i:%s') AS pptime,TIME_FORMAT(SEC_TO_TIME(g.attackzoneseconds),'%i:%s') AS attackzonetime,t.abbr");
+      $this->db->select("g.*,TIME_FORMAT(SEC_TO_TIME(g.ppseconds),'%i:%s') AS pptime,TIME_FORMAT(SEC_TO_TIME(g.attackzoneseconds),'%i:%s') AS attackzonetime,t.abbr,t.name,s.gamedate");
       $this->db->from('games AS g');
       $this->db->join('teams AS t','g.team_id = t.id');
+      $this->db->join('schedule AS s','g.schedule_id = s.id');
       $this->db->where('g.schedule_id',$scheduleid);
-      $this->db->order_by('g.id ASC');
+      $this->db->order_by('g.id DESC');
 
       $query = $this->db->get();
       return $query->result();
+    }
+
+    public function getTeamsByScheduleID($scheduleid) {
+        $this->db->select('g.id AS gameid,t.city,t.name');
+        $this->db->from('games AS g');
+        $this->db->join('schedule AS s','g.schedule_id = s.id');
+        $this->db->join('teams AS t','g.team_id = t.id');
+        $this->db->where('s.id',$scheduleid);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getPeriodStatsByGameID($gameid) {
+        $this->db->select('p.*');
+        $this->db->from('periodstats AS p');
+        $this->db->where('p.game_id',$gameid);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function getPeriodStats($scheduleid) {
+        $teams = $this->getTeamsByScheduleID($scheduleid);
+        foreach ($teams as $team) {
+            $team->periodstats = $this->getPeriodStatsByGameID($team->gameid);
+        }
+        return $teams;
     }
 
     public function getScoringSummary($scheduleid) {

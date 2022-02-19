@@ -20,6 +20,7 @@ class Games extends MY_Controller {
 
   public function boxscore($scheduleid) {
     $this->data['gamestats'] = $this->games_model->getGameStats($scheduleid);
+	$this->data['periodstats'] = $this->games_model->getPeriodStats($scheduleid);
     $this->data['scoringsummary'] = $this->games_model->getScoringSummary($scheduleid);
     $this->data['penaltysummary'] = $this->games_model->getPenaltySummary($scheduleid);
 		$this->load->view('boxscore',$this->data);

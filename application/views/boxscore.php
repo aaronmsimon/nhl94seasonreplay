@@ -6,6 +6,64 @@
 {% block js %}<script src="js/boxscore.js" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
+<div id="col1" class="col">
+    <p class="gamedate">{{ gamestats.0.gamedate | date("F j, Y") }}</p>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>SOG</th>
+                    <th>FO%</th>
+                    <th>PP</th>
+                    <th>PIM</th>
+                    <th>HITS</th>
+                    <th>ATTACK</th>
+                    <th>PASS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for team in gamestats %}
+                <tr>
+                    <td>
+                        <div class="box">
+                            <img src="images/teamlogos/{{ team.abbr }}.png" height="30" />
+                            <span class="teamname" style="padding-left: 10px;">{{ team.name }}</span>
+                        </div>
+                    </td>
+                    <td>{{ team.shots }}</td>
+                    <td>{{ team.faceoffswon }}</td>
+                    <td>{{ team.ppgoals }}/{{ team.ppattempts }}</td>
+                    <td>{{ team.pim }}</td>
+                    <td>{{ team.bodychecks }}</td>
+                    <td>{{ team.attackzonetime }}</td>
+                    <td>{{ (team.passsuccess / team.passattempts * 100) | number_format(0) }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div id="col2" class="col">
+    <table>
+        <thead>
+            <th>1st</th>
+            <th>2nd</th>
+            <th>3rd</th>
+        </thead>
+        <tbody>
+            {% for team in periodstats %}
+            <tr>
+                {% for period in team.periodstats %}
+                    <td>{{ period.goals }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 
 <h3>Team Stats</h3>
 <div id="gamestats">
