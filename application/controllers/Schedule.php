@@ -15,15 +15,22 @@ class Schedule extends MY_Controller {
     header('Location: ' . $this->config->item('base_url') . 'schedule/upcoming-games');
 	}
 
-  public function upcoming_games() {
+  public function upcoming_games($date = null) {
 		$gamestatus = $this->schedule_model->getGameStatus($this->schedule_model->getCurrentGame());
 		if ($gamestatus == 0) {
 			header('Location: ' . $this->config->item('base_url') . 'games/play-game');
 		} else {
-			$this->data['games'] = $this->schedule_model->getNextGame(10);
-	    $this->data['gamestatus'] = $gamestatus;
-	    $this->data['currentgame'] = $this->schedule_model->getCurrentGame();
-			$this->load->view('upcoming',$this->data);
+			if (is_null($date)) {
+				$currentDate = $this->schedule_model->getCurrentDate()->gamedate;
+				header('Location: ' . $this->config->item('base_url') . 'schedule/upcoming-games/' . $currentDate);
+			} else {
+			    $this->data['gamestatus'] = $gamestatus;
+			    $this->data['currentgame'] = $this->schedule_model->getCurrentGame();
+
+				$this->data['dates'] = $this->schedule_model->getNextGames(7, $date);
+				$this->data['currentdate'] = $date;
+				$this->load->view('upcoming',$this->data);
+			}
 		}
   }
 

@@ -9,6 +9,17 @@
       $this->load->database();
     }
 
+    public function getCurrentDate() {
+        $this->db->select('s.gamedate');
+        $this->db->distinct();
+        $this->db->from('schedule AS s');
+        $this->db->join('games AS g','s.id = g.schedule_id','left');
+        $this->db->where('g.schedule_id is null');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     public function getNextGame($numgames) {
       $this->db->select('s.id, s.gamedate, CONCAT("(",COALESCE(ra.wins,0),"-",COALESCE(ra.losses,0),"-",COALESCE(ra.ties,0),") ",a.abbr," at ",h.abbr," (",COALESCE(rh.wins,0),"-",COALESCE(rh.losses,0),"-",COALESCE(rh.ties,0),")") AS gamedesc');
       $this->db->from('schedule AS s');
@@ -39,33 +50,26 @@
       $query = $this->db->get();
       return $query->result();
     }
+
     public function getNextGames($dayCount, $currentDate) {
-        $dates = $this->getNextDates($dayCount, $currentDate);
-        foreach ($dates as $date) {
-            $games = $this->getGamesByDate($date);
-            array_push($date,$games);
-        }
-        print_r($dates);
-    }
-    public function getNextDates($dayCount, $currentDate) {
-        // $dateFrom = date_format($currentDate,'Y-m-d');
-        // $dateTo = date_format(date_add($currentDate,date_interval_create_from_date_string("$dayCount days")),'Y-m-d');
-        // $this->db->select('gamedate');
-        // $this->db->distinct();
-        // $this->db->from('schedule AS s');
-        // $this->db->where("s.gamedate BETWEEN '$dateFrom' AND '$dateTo'");
-        // $query = $this->db->get();
-        // return $query->result();
-        $dateArray = array();
+        $gamesbydate = array();
         for ($i = 0; $i < $dayCount; $i++) {
-            array_push($dateArray,date_format(date_add(date_create($currentDate),date_interval_create_from_date_string("$i days")),'Y-m-d'));
+            $date["gamedate"] = date_format(date_add(date_create($currentDate),date_interval_create_from_date_string("$i days")),'Y-m-d');
+            $date["games"] = $this->getGamesByDate($date["gamedate"]);
+            array_push($gamesbydate,$date);
         }
-        return $dateArray;
+        return $gamesbydate;
     }
+
     public function getGamesByDate($gameDate) {
-        $this->db->select();
-        $this->db->from('schedule');
-        $this->db->where('gamedate',$gameDate);
+        $this->db->select('s.id, s.gamedate, h.abbr AS homelogo, h.city AS home, gh.goals AS homegoals, a.abbr AS awaylogo, a.city AS away, ga.goals AS awaygoals');
+        $this->db->from('schedule AS s');
+        $this->db->join('teams AS h','s.hometeam_id = h.id');
+        $this->db->join('teams AS a','s.awayteam_id = a.id');
+        $this->db->join('games as gh','s.id = gh.schedule_id AND gh.team_id = h.id','left');
+        $this->db->join('games as ga','s.id = ga.schedule_id AND ga.team_id = a.id','left');
+        $this->db->where('s.gamedate',$gameDate);
+        $this->db->order_by('s.id ASC');
         $query = $this->db->get();
         return $query->result();
     }
