@@ -4,8 +4,6 @@
 }
 
 .conference {
-  width: 350px;
-  display: inline-block;
   vertical-align: top;
   margin: 25px;
 }
@@ -31,6 +29,9 @@
 table {
   margin: 0 auto;
 }
+th {
+    width: 50px;
+}
 tr {
   /* height: 20px; */
 }
@@ -48,3 +49,5 @@ td a {
 td span {
   line-height: 30px;
 }
+.green {color: #094;}
+.red {color: #D00;}

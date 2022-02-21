@@ -14,14 +14,19 @@
     <div class="divname blockname"><span>{{ div.name | upper }} DIVISION</span></div>
     <table>
       <tr>
-        <th>Team</th>
+        <th style="width: 225px;">Team</th>
         <th>GP</th>
         <th>W</th>
         <th>L</th>
         <th>T</th>
-        <th>Pts</th>
+        <th>PTS</th>
+        <th>HOME</th>
+        <th>AWAY</th>
         <th>GF</th>
         <th>GA</th>
+        <th>DIFF</th>
+        <th>LAST10</th>
+        <th>STRK</th>
       </tr>
       {% for team in div.teams %}
       <tr>
@@ -31,8 +36,13 @@
         <td class="right" width="20">{{ team.losses }}</td>
         <td class="right" width="20">{{ team.ties }}</td>
         <td class="right" width="20">{{ team.points }}</td>
+        <td class="right" width="20">{{ team.homewins }}-{{ team.homelosses }}-{{ team.hometies }}</td>
+        <td class="right" width="20">{{ team.awaywins }}-{{ team.awaylosses }}-{{ team.awayties }}</td>
         <td class="right" width="20">{{ team.goalsfor }}</td>
         <td class="right" width="20">{{ team.goalsagainst }}</td>
+        <td class="right {% if team.goalsfor > team.goalsagainst %}green{% endif %} {% if team.goalsfor < team.goalsagainst %}red{% endif %}" width="20">{% if team.goalsfor > team.goalsagainst %}+{% endif %}{{ team.goalsfor - team.goalsagainst }}</td>
+        <td class="right" width="20">{{ team.last10wins }}-{{ team.last10losses }}-{{ team.last10ties }}</td>
+        <td class="right" width="20">{{ team.streak }}</td>
       </tr>
       {% endfor %}
     </table>
