@@ -155,7 +155,7 @@
 <div id="scoringsummary">
   {% for goal in scoringsummary %}
   <div>
-    {{ goal.period }} {{ goal.timeelapsed }} {{ goal.abbr }} {{ goal.goal }} {{ goal.assists }}{{ goal.goalsuffix }}
+    {{ goal.period }} {{ goal.timeelapsed }} {{ goal.abbr }} {{ goal.goal }} {{ goal.goalnum }} {{ goal.assists }}{{ goal.goalsuffix }}
   </div>
   {% endfor %}
 </div>

@@ -47,11 +47,12 @@
 
     public function getScoringSummary($scheduleid) {
       $this->db->select("ss.period, TIME_FORMAT(SEC_TO_TIME(ss.timeelapsed),'%i:%s') AS timeelapsed, t.abbr,
-        CONCAT(g.num,' ',SUBSTRING(g.firstname,1,1),'. ',g.lastname) As goal,
+        CONCAT(SUBSTRING(g.firstname,1,1),'. ',g.lastname) As goal,
+        COALESCE(num.goals,0) + 1 AS goalnum,
         CONCAT('(',
           CASE WHEN a1.num IS NULL THEN 'Unassisted' ELSE
-            CONCAT(a1.num,' ',SUBSTRING(a1.firstname,1,1),'. ',a1.lastname,
-              CASE WHEN a2.num IS NOT NULL THEN CONCAT(', ',a2.num,' ',SUBSTRING(a2.firstname,1,1),'. ',a2.lastname) ELSE '' END
+            CONCAT(SUBSTRING(a1.firstname,1,1),'. ',a1.lastname,
+              CASE WHEN a2.num IS NOT NULL THEN CONCAT(', ',SUBSTRING(a2.firstname,1,1),'. ',a2.lastname) ELSE '' END
             )
           END,')') AS assists,
         CASE WHEN gt.category IS NOT NULL THEN CONCAT(' (',gt.category,')') ELSE '' END AS goalsuffix
@@ -62,6 +63,13 @@
       $this->db->join('players AS a1','ss.assist1_player_id = a1.id','left');
       $this->db->join('players AS a2','ss.assist2_player_id = a2.id','left');
       $this->db->join('goaltypes AS gt','CONV(ss.goaltype,16,10) = gt.id');
+      $this->db->join('(
+          SELECT ss.id,ss.goal_player_id,COUNT(num.id) AS goals
+          FROM scoringsummary ss
+          JOIN scoringsummary num ON ss.goal_player_id = num.goal_player_id AND ss.id > num.id
+          GROUP BY ss.id,ss.goal_player_id
+          ) AS num'
+          ,'ss.id = num.id AND ss.goal_player_id = num.goal_player_id','left');
       $this->db->where('ss.schedule_id',$scheduleid);
       $this->db->order_by("ss.period ASC, TIME_FORMAT(SEC_TO_TIME(ss.timeelapsed),'%i:%s') ASC");
 
