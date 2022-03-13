@@ -1,46 +1,38 @@
-div.ui-datepicker {
-  font-size: 25px;
-}
-
-#upcoming-games {
-  width: 500px;
-  margin: 25px auto;
-}
-
-.gamedate {
-  padding-right: 10px;
-}
-
-tr {
-  line-height: 30px;
-}
-
-#game {
-  width: 440px;
-  margin: 25px auto 35px;
-  display: flex;
-  align-items: center;
-  font-size: 50px;
-}
-.side {
-  margin: 0 35px;
-  font-size: 20px;
-  text-align: center;
-}
-.active {
-  border-bottom: 5px solid red;
-}
-.team-info {
-  font-size: 15px;
-}
-
-.button-row {
-  width: 300px;
+#daterange {
   height: 50px;
-  margin: 15px auto;
-  text-align: center;
 }
-.button-row button {
-  width: 200px;
-  height: 35px;
+.day {
+  width: 125px;
+  text-align: center;
+  margin: auto;
+}
+
+.date-details-day {
+  font-size: 15px;
+  line-height: 15px;
+}
+.date-details-date {
+  font-size: 10px;
+  line-height: 10px;
+}
+
+.date-heading {
+  margin: 10px 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.games {
+  font-size: 12px;
+  border-collapse: collapse;
+}
+.games-heading {
+  line-height: 20px;
+}
+.games-heading th{
+  border-top: 1px lightgray solid;
+  border-bottom: 1px lightgray solid;
+}
+.game-row {
+  line-height: 30px;
 }
