@@ -1,6 +1,6 @@
 {% extends 'layouts/base.php' %}
 
-{% block css %}<link href="css/schedule.css" rel="stylesheet" />{% endblock %}
+{% block css %}<link href="css/schedule_orig.css" rel="stylesheet" />{% endblock %}
 {% block js %}
   <script src="js/schedule.js" type="text/javascript"></script>
   {% block subjs %}{% endblock %}
