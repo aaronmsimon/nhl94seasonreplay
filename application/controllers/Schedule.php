@@ -37,7 +37,7 @@ class Schedule extends MY_Controller {
   public function full_schedule($teamabbr = null) {
     $this->data['schedule'] = $this->schedule_model->getSchedule($teamabbr);
 		$this->data['teams'] = $this->schedule_model->getTeams(true);
-    $this->load->view('schedule',$this->data);
+    $this->load->view('schedule_orig',$this->data);
   }
 
   /**
