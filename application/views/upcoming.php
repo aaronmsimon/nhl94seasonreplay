@@ -3,6 +3,7 @@
 {% block title %}Upcoming Games{% endblock %}
 
 {% block css %}<link href="css/schedule.css" rel="stylesheet" />{% endblock %}
+{% block js %}<script src="js/schedule.js" type="text/javascript"></script>{% endblock %}
 
 {% block content %}
   <div id="page-header">NHL Schedule</div>
