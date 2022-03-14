@@ -51,8 +51,8 @@
       </tr>
       {% for game in date.games %}
       <tr class="game-row">
-          <td><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }} {{game.awaygoals}}</td>
-          <td>@ <img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }} {{game.homegoals}}</td>
+          <td><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</td>
+          <td>@ <img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</td>
           <td class="gameid center">{{ game.id }}</td>
           <td><img alt="ESPN+" class="Image Logo__Network network-espn+" data-mptype="image" src="https://a.espncdn.com/redesign/assets/img/logos/espnplus/ESPN+.svg"></td>
           <td class="actions center">
@@ -65,7 +65,15 @@
               {% endif %}
             {% else %}
               {% if game.homegoals is null %}
-                  <button class="playgame">Play Game</button>
+                <button class="playgame">Play Game</button>
+              {% else %}
+              <a href="{{ base_url }}games/boxscore/{{ game.id }}">
+                {% if game.homegoals > game.awaygoals %}
+                  {{ game.homelogo }} {{ game.homegoals }}, {{ game.awaylogo }} {{ game.awaygoals }}
+                {% else %}
+                  {{ game.awaylogo }} {{ game.awaygoals }}, {{ game.homelogo }} {{ game.homegoals }}
+                {% endif %}
+              </a>
               {% endif %}
             {% endif %}
           </td>
