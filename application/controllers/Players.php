@@ -18,9 +18,16 @@ class Players extends MY_Controller {
 
   public function profile($playerid) {
     $this->data['player'] = $this->players_model->getPlayerByID($playerid);
-		$this->data['stats'] = $this->stats_model->getPlayerStatsByPlayerID($playerid);
-		$this->data['games'] = $this->stats_model->getPlayerStatsByGameByPlayerID($playerid);
-    $this->load->view('playerlookup',$this->data);
+
+    if ($this->data['player']->pos <> 'G') {
+      $this->data['stats'] = $this->stats_model->getPlayerStatsByPlayerID($playerid);
+      $this->data['games'] = $this->stats_model->getPlayerStatsByGameByPlayerID($playerid);
+      $this->load->view('playerlookup',$this->data);
+    } else {
+      $this->data['stats'] = $this->stats_model->getGoalieStatsByPlayerID($playerid);
+      $this->data['games'] = $this->stats_model->getGoalieStatsByGameByPlayerID($playerid);
+      $this->load->view('goalielookup',$this->data);
+    }
   }
 
   /**

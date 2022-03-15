@@ -132,6 +132,88 @@
           return $query->result();
         }
 
+        public function getGoalieStatsByPlayerID($playerid) {
+          $this->db->select("t.city, t.name, t.abbr, p.firstname, p.lastname,
+            s.gp,s.ga,s.sa,s.toi,s.soi,
+            COALESCE(d.w,0) AS w,COALESCE(d.l,0) AS l,COALESCE(d.t,0) AS t,
+            COALESCE(so.so,0) AS so");
+          $this->db->from('players AS p');
+          $this->db->join('teams AS t','p.team_id = t.id');
+          $this->db->join("
+            (SELECT player_id,
+              SUM(CASE WHEN toi > 0 THEN 1 ELSE 0 END) AS gp,
+              sum(goals) as ga,
+              sum(sog) as sa,
+              TIME_FORMAT(SEC_TO_TIME(sum(toi) / SUM(CASE WHEN toi > 0 THEN 1 ELSE 0 END)),'%i:%s') as toi,
+              sum(toi) AS soi
+            FROM playerstats
+            GROUP BY player_id
+            HAVING SUM(toi) > 0) AS s",'p.id = s.player_id');
+          $this->db->join(
+            "(select player_id,sum(wins) as w,sum(losses) as l,sum(ties) as t from (
+              select p.id as player_id,
+              case when r.GameResult = 'W' and max(ps.toi) over(partition by g.id) = ps.toi THEN 1 else 0 end as wins,
+              case when r.GameResult = 'L' and max(ps.toi) over(partition by g.id) = ps.toi  THEN 1 else 0 end as losses,
+              case when r.GameResult = 'T' and max(ps.toi) over(partition by g.id) = ps.toi  THEN 1 else 0 end as ties
+              from players p
+              join playerstats ps on p.id = ps.player_id
+              join games g on ps.game_id = g.id
+              join results r on g.schedule_id = r.schedule_id and p.team_id = r.team_id
+              where ps.toi > 0
+              ) d
+              group by player_id) AS d",'p.id = d.player_id','left'
+          );
+          $this->db->join(
+            "(select player_id, count(*) as so from playerstats where goals = 0 and toi > 0 group by player_id) as so",
+            'p.id = so.player_id','left'
+          );
+          $this->db->where('p.id',$playerid);
+  
+          $query = $this->db->get();
+          return $query->row();
+        }
+  
+        public function getGoalieStatsByGameByPlayerID($playerid) {
+          $this->db->select("CASE WHEN s.hometeam_id = p.team_id THEN CONCAT('vs ',a.abbr) ELSE CONCAT('@ ',h.abbr) END AS 'gamedesc',s.id AS scheduleid,
+            SUM(CASE WHEN ps.toi > 0 THEN 1 ELSE 0 END) AS gp,
+            sum(ps.goals) as ga,
+            sum(ps.sog) as sa,
+            TIME_FORMAT(SEC_TO_TIME(sum(ps.toi) / SUM(CASE WHEN ps.toi > 0 THEN 1 ELSE 0 END)),'%i:%s') as toi,
+            sum(ps.toi) AS soi,
+            COALESCE(d.w,0) AS w,COALESCE(d.l,0) AS l,COALESCE(d.t,0) AS t,
+            COALESCE(so.so,0) AS so");
+          $this->db->from('playerstats as ps');
+          $this->db->join('games as g','ps.game_id = g.id');
+          $this->db->join('schedule as s','g.schedule_id = s.id');
+          $this->db->join('players as p','ps.player_id = p.id');
+          $this->db->join('teams as h','s.hometeam_id = h.id');
+          $this->db->join('teams as a','s.awayteam_id = a.id');
+          $this->db->join("(
+            select game_id,player_id,sum(wins) as w,sum(losses) as l,sum(ties) as t 
+            from (
+              select ps.game_id,p.id AS player_id,
+                case when r.GameResult = 'W' and max(ps.toi) over(partition by g.id) = ps.toi THEN 1 else 0 end as wins,
+                case when r.GameResult = 'L' and max(ps.toi) over(partition by g.id) = ps.toi  THEN 1 else 0 end as losses,
+                case when r.GameResult = 'T' and max(ps.toi) over(partition by g.id) = ps.toi  THEN 1 else 0 end as ties
+              from players p
+              join playerstats ps on p.id = ps.player_id
+              join games g on ps.game_id = g.id
+              join results r on g.schedule_id = r.schedule_id and p.team_id = r.team_id
+              where ps.toi > 0
+            ) d
+            group by game_id,player_id
+          ) AS d",'g.id = d.game_id AND p.id = d.player_id','left');
+          $this->db->join(
+            "(select game_id,player_id, count(*) as so from playerstats where goals = 0 and toi > 0 group by game_id,player_id) as so",
+            'g.id = so.game_id AND p.id = so.player_id','left'
+          );
+          $this->db->where('p.id',$playerid);
+          $this->db->group_by('s.id');
+
+          $query = $this->db->get();
+          return $query->result();
+        }
+
       public function getTeamStats($teamid) {
         $this->db->select('t.name,pp.pct AS PPpct,
           CONCAT(pp.rank,CASE
