@@ -23,7 +23,12 @@ class Games extends MY_Controller {
 	$this->data['periodstats'] = $this->games_model->getPeriodStats($scheduleid);
     $this->data['scoringsummary'] = $this->games_model->getScoringSummary($scheduleid);
     $this->data['penaltysummary'] = $this->games_model->getPenaltySummary($scheduleid);
-		$this->load->view('boxscore',$this->data);
+	$teams = $this->games_model->getTeamsByScheduleID($scheduleid);
+	foreach ($teams as $team) {
+		$team->playerstats = $this->games_model->getPlayerStatsByGameID($team->gameid);
+	}
+	$this->data['playerstats'] = $teams;
+	$this->load->view('boxscore',$this->data);
   }
 
 	public function play_game() {
