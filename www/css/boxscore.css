@@ -1,8 +1,10 @@
 #content {
     font-family: "Sintony",Arial,sans-serif;
+    display: flex;
+    background-color: #ECECEC;
+    padding: 5px;
 }
 div.col {
-    display: inline-block;
     border: 0;
     padding: 0;
     margin: 0;
@@ -11,12 +13,24 @@ div.col {
     width: 65%;
 }
 #col2 {
-    width: 25%;
+    width: 35%;
 }
 
-.gamedate {
+.section {
+    margin: 2px;
+    padding: 2px 5px;
+    background-color: white;
+    border: 1px solid lightgray;
+}
+.subtle {
+    margin: 2px;
+    padding: 2px 5px;
+    background-color: inherit;
+    border: none;
+}
+
+#gamedate {
     font-size: 17px;
-    margin: 0;
     line-height: 1.75;
 }
 table {
@@ -25,7 +39,6 @@ table {
     text-align: center;
 }
 th {
-    padding: 10px 0;
     height: 38px;
     font-weight: normal;
     font-size: 12px;
@@ -33,7 +46,6 @@ th {
 td {
     padding: 5px 0;
     font-weight: 500;
-    font-size: 27px;
     font-family: "Oswald",Arial,sans-serif;
 }
 .teamname {
@@ -46,4 +58,34 @@ td {
 }
 td.teamcol {
     width: 100px;
+}
+
+#team-stats th {
+    padding: 10px 0;
+}
+#team-stats td {
+    font-size: 27px;
+}
+
+#scoring-summary {
+    font-size: 12px;
+}
+.goal-details {
+    width: 85px;
+}
+.goal-details td {
+    border: 1px solid black;
+}
+.goal-scorer {
+    font-size: 15px;
+    font-weight: bold;
+}
+.assists {
+    margin: 3px 0;
+}
+.goal-time {
+    width: 60px;
+}
+.goal-suffix {
+    width: 25px;
 }

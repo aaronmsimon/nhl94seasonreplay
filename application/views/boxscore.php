@@ -7,9 +7,9 @@
 
 {% block content %}
 <div id="col1" class="col">
-    <p class="gamedate">{{ gamestats.0.gamedate | date("F j, Y") }}</p>
-    <div>
-        <table>
+    <div id="gamedate" class="section">{{ gamestats.0.gamedate | date("F j, Y") }}</div>
+    <div class="section">
+        <table id="team-stats">
             <thead>
                 <tr>
                     <th></th>
@@ -43,28 +43,91 @@
             </tbody>
         </table>
     </div>
+    {% for team in playerstats %}
+    <div class="section">
+      <div>{{ team.city }} {{ team.name }}</div>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>G</th>
+          <th>A</th>
+          <th>P</th>
+          <th>+/-</th>
+          <th>PIM</th>
+          <th>SOG</th>
+          <th>HITS</th>
+          <th>REC'D</th>
+          <th>TOI</th>
+        </tr>
+        {% for player in team.playerstats %}
+        <tr>
+          <td>{{ player.num }}</td>
+          <td>{{ player.firstname }} {{ player.lastname }}</td>
+          <td>{{ player.g }}</td>
+          <td>{{ player.a }}</td>
+          <td>{{ player.pts }}</td>
+          <td>{{ player.plusminus }}</td>
+          <td>{{ player.pim }}</td>
+          <td>{{ player.sog }}</td>
+          <td>{{ player.chkf }}</td>
+          <td>{{ player.chka }}</td>
+          <td>{{ player.toi }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endfor %}
 </div>
 <div id="col2" class="col">
-    <table>
-        <thead>
-            <th>1st</th>
-            <th>2nd</th>
-            <th>3rd</th>
-        </thead>
-        <tbody>
-            {% for team in periodstats %}
-            <tr>
-                {% for period in team.periodstats %}
-                    <td>{{ period.goals }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="section">
+      <table>
+          <thead>
+              <th></th>
+              <th>1st</th>
+              <th>2nd</th>
+              <th>3rd</th>
+          </thead>
+          <tbody>
+              {% for team in periodstats %}
+              <tr>
+                  <td><img src="images/teamlogos/{{ team.abbr }}.png" height="30" /></td>
+                  {% for period in team.periodstats %}
+                      <td>{{ period.goals }}</td>
+                  {% endfor %}
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
+    <div class="section subtle">Scoring</div>
+    <div id="scoring-summary" class="section">
+      {% for goal in scoringsummary %}
+      <div class="goal">
+        <table>
+          <tr>
+            <td style="width:60px;"><img src="images/teamlogos/{{ goal.abbr }}.png" height="30" /></td>
+            <td>
+              <div class="goal-scorer left">{{ goal.goal }} ({{ goal.goalnum }})</div>
+              <div class="assists left">{{ goal.assists }}</div>
+               <table class="goal-details">
+                  <tr>
+                    <td class="goal-time">{{ goal.timeelapsed }} / {{ goal.period }}</td>
+                    {% if goal.goalsuffix != "" %}
+                    <td class="goal-suffix">{{ goal.goalsuffix }}</td>
+                    {% endif %}
+                  </tr>
+                </table>
+            </td>
+          </tr>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
 </div>
 
 
-
+<!--
 <h3>Team Stats</h3>
 <div id="gamestats">
   <table>
@@ -151,15 +214,6 @@
   </table>
 </div>
 
-<h3>Scoring Summary</h3>
-<div id="scoringsummary">
-  {% for goal in scoringsummary %}
-  <div>
-    {{ goal.period }} {{ goal.timeelapsed }} {{ goal.abbr }} {{ goal.goal }} {{ goal.goalnum }} {{ goal.assists }}{{ goal.goalsuffix }}
-  </div>
-  {% endfor %}
-</div>
-
 <h3>Penalty Summary</h3>
 <div id="penaltysummary">
   {% for penalty in penaltysummary %}
@@ -168,5 +222,7 @@
   </div>
   {% endfor %}
 </div>
+
+-->
 
 {% endblock %}
