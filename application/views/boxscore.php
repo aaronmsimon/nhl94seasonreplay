@@ -134,105 +134,24 @@
       </div>
       {% endfor %}
     </div>
+    <div class="section subtle">Penalties</div>
+    <div id="penaltysummary" class="section">
+      <table>
+      <tr>
+        <td>Per / Time</td>
+        <td>Team</td>
+        <td>Player / Penalty</td>
+      </tr>
+      {% for penalty in penaltysummary %}
+      <tr>
+        <td>{{ penalty.period }} / {{ penalty.timeelapsed }}</td>
+        <td style="width:60px;"><img src="images/teamlogos/{{ penalty.abbr }}.png" height="30" /></td>
+        <td class="left">{{ penalty.firstname }} {{ penalty.lastname }} ({{ penalty.penalty }})</td>
+      </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <div class="section subtle">Shots On Goal</div>
 </div>
-
-
-<!--
-<h3>Team Stats</h3>
-<div id="gamestats">
-  <table>
-    <tr>
-      <td>{{ gamestats.1.abbr }}</td>
-      <td>Team</td>
-      <td>{{ gamestats.0.abbr }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.goals }}</td>
-      <td>Score</td>
-      <td>{{ gamestats.0.goals }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.shots }}</td>
-      <td>Shots</td>
-      <td>{{ gamestats.0.shots }}</td>
-    </tr>
-    <tr>
-      <td>{{ (gamestats.1.goals / gamestats.1.shots * 100) | number_format(0) }}%</td>
-      <td>Shooting Pct</td>
-      <td>{{ (gamestats.0.goals / gamestats.0.shots * 100) | number_format(0) }}%</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.ppgoals }}/{{ gamestats.1.ppattempts }}</td>
-      <td>Power Play</td>
-      <td>{{ gamestats.0.ppgoals }}/{{ gamestats.0.ppattempts }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.pptime }}</td>
-      <td>PP Minutes</td>
-      <td>{{ gamestats.0.pptime }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.ppshots }}</td>
-      <td>PP Shots</td>
-      <td>{{ gamestats.0.ppshots }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.shgoals }}</td>
-      <td>SH Goals</td>
-      <td>{{ gamestats.0.shgoals }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.breakawaygoals }}/{{ gamestats.1.breakawayattempts }}</td>
-      <td>Breakaways</td>
-      <td>{{ gamestats.0.breakawaygoals }}/{{ gamestats.0.breakawayattempts }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.onetimergoals }}/{{ gamestats.1.onetimerattempts }}</td>
-      <td>One-Timers</td>
-      <td>{{ gamestats.0.onetimergoals }}/{{ gamestats.0.onetimerattempts }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.penaltyshotgoals }}/{{ gamestats.1.penaltyshotattempts }}</td>
-      <td>Penalty Shots</td>
-      <td>{{ gamestats.0.penaltyshotgoals }}/{{ gamestats.0.penaltyshotattempts }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.faceoffswon }}</td>
-      <td>Faceoffs Won</td>
-      <td>{{ gamestats.0.faceoffswon }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.bodychecks }}</td>
-      <td>Body Checks</td>
-      <td>{{ gamestats.0.bodychecks }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.penalties }}/{{ gamestats.1.pim }}</td>
-      <td>Penalties</td>
-      <td>{{ gamestats.0.penalties }}/{{ gamestats.0.pim }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.attackzonetime }}</td>
-      <td>Attack Zone</td>
-      <td>{{ gamestats.0.attackzonetime }}</td>
-    </tr>
-    <tr>
-      <td>{{ gamestats.1.passsuccess }}/{{ gamestats.1.passattempts }} ({{ (gamestats.1.passsuccess / gamestats.1.passattempts * 100) | number_format(0) }}%)</td>
-      <td>Pass Attempts</td>
-      <td>{{ gamestats.0.passsuccess }}/{{ gamestats.0.passattempts }} ({{ (gamestats.0.passsuccess / gamestats.0.passattempts * 100) | number_format(0) }}%)</td>
-    </tr>
-  </table>
-</div>
-
-<h3>Penalty Summary</h3>
-<div id="penaltysummary">
-  {% for penalty in penaltysummary %}
-  <div>
-    {{ penalty.period }} {{ penalty.timeelapsed }} {{ penalty.abbr }} {{ penalty.player }} - {{ penalty.penalty }} ({{ penalty.minutes }} min)
-  </div>
-  {% endfor %}
-</div>
-
--->
 
 {% endblock %}

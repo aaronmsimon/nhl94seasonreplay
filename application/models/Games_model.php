@@ -82,7 +82,7 @@
 
     public function getPenaltySummary($scheduleid) {
       $this->db->select("ps.period, TIME_FORMAT(SEC_TO_TIME(ps.timeelapsed),'%i:%s') AS timeelapsed, t.abbr,
-        CONCAT(pl.num,' ',SUBSTRING(pl.firstname,1,1),'. ',pl.lastname) AS player, p.penalty, p.minutes
+        pl.firstname, pl.lastname, p.penalty, p.minutes
       ");
       $this->db->from('penaltysummary AS ps');
       $this->db->join('penalties AS p','ps.penalty_id = p.id');
