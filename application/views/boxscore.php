@@ -63,7 +63,7 @@
         {% for player in team.playerstats %}
         <tr>
           <td>{{ player.num }}</td>
-          <td>{{ player.firstname }} {{ player.lastname }}</td>
+          <td class="left"><a href="{{ base_url }}players/profile/{{ player.id }}">{{ player.firstname }} {{ player.lastname }}</a></td>
           <td>{{ player.g }}</td>
           <td>{{ player.a }}</td>
           <td>{{ player.pts }}</td>
@@ -108,8 +108,14 @@
           <tr>
             <td style="width:60px;"><img src="images/teamlogos/{{ goal.abbr }}.png" height="30" /></td>
             <td>
-              <div class="goal-scorer left">{{ goal.goal }} ({{ goal.goalnum }})</div>
-              <div class="assists left">{{ goal.assists }}</div>
+              <div class="goal-scorer left"><a href="{{ base_url }}players/profile/{{ goal.playerid_g }}">{{ goal.goal }}</a> ({{ goal.goalnum }})</div>
+              <div class="assists left">
+                {% if goal.assist1 is empty %}
+                  Unassisted
+                {% else %}
+                <a href="{{ base_url }}players/profile/{{ goal.playerid_a1 }}">{{ goal.assist1 }}</a>{% if goal.assist2 is not empty %}, <a href="{{ base_url }}players/profile/{{ goal.playerid_a2 }}">{{ goal.assist2 }}</a>{% endif %}
+                {% endif %}
+              </div>
                <table class="goal-details" style="width:{% if goal.goalsuffix is empty %}200{% else %}225{% endif %}px;">
                   <tr>
                     <td class="goal-time">{{ goal.timeelapsed }} / {{ goal.period }}</td>

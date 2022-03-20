@@ -48,14 +48,10 @@
 
     public function getScoringSummary($scheduleid) {
       $this->db->select("ss.period, TIME_FORMAT(SEC_TO_TIME(ss.timeelapsed),'%i:%s') AS timeelapsed, t.abbr,
-        CONCAT(g.firstname,' ',g.lastname) As goal,
+        CONCAT(g.firstname,' ',g.lastname) As goal, g.id AS playerid_g,
         COALESCE(num.goals,0) + 1 AS goalnum,
-        CONCAT(
-          CASE WHEN a1.num IS NULL THEN 'Unassisted' ELSE
-            CONCAT(SUBSTRING(a1.firstname,1,1),'. ',a1.lastname,
-              CASE WHEN a2.num IS NOT NULL THEN CONCAT(', ',SUBSTRING(a2.firstname,1,1),'. ',a2.lastname) ELSE '' END
-            )
-          END) AS assists,
+        CONCAT(SUBSTRING(a1.firstname,1,1),'. ',a1.lastname) AS assist1, a1.id AS playerid_a1,
+        CONCAT(SUBSTRING(a2.firstname,1,1),'. ',a2.lastname) AS assist2, a2.id AS playerid_a2,
         CASE WHEN gt.category IS NOT NULL THEN UPPER(gt.category) ELSE '' END AS goalsuffix,
         th.abbr AS home_abbr,ta.abbr AS away_abbr,
         SUM(CASE WHEN t.id = th.id THEN 1 ELSE 0 END) OVER (ORDER BY ss.id) AS homegoal_total,
@@ -109,7 +105,7 @@
     }
 
     public function getPlayerStatsByGameID($gameid) {
-      $this->db->select("p.pos, p.num, p.firstname, p.lastname,
+      $this->db->select("p.id, p.pos, p.num, p.firstname, p.lastname,
         s.g,s.a,s.pts,s.sog,s.plusminus,s.chkf,s.chka,s.toi,
         COALESCE(ss.ppg,0) AS ppg,COALESCE(ss.shg,0) AS shg,
         COALESCE(pim.pim,0) AS pim");
