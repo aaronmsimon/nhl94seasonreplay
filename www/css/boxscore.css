@@ -70,9 +70,6 @@ td.teamcol {
 #scoring-summary {
     font-size: 12px;
 }
-.goal-details {
-    width: 85px;
-}
 .goal-details td {
     border: 1px solid black;
 }
@@ -84,7 +81,10 @@ td.teamcol {
     margin: 3px 0;
 }
 .goal-time {
-    width: 60px;
+    width: 100px;
+}
+.running-score {
+    width: 100px;
 }
 .goal-suffix {
     width: 25px;

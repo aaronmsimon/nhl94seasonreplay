@@ -56,11 +56,17 @@
               CASE WHEN a2.num IS NOT NULL THEN CONCAT(', ',SUBSTRING(a2.firstname,1,1),'. ',a2.lastname) ELSE '' END
             )
           END) AS assists,
-        CASE WHEN gt.category IS NOT NULL THEN UPPER(gt.category) ELSE '' END AS goalsuffix
+        CASE WHEN gt.category IS NOT NULL THEN UPPER(gt.category) ELSE '' END AS goalsuffix,
+        th.abbr AS home_abbr,ta.abbr AS away_abbr,
+        SUM(CASE WHEN t.id = th.id THEN 1 ELSE 0 END) OVER (ORDER BY ss.id) AS homegoal_total,
+        SUM(CASE WHEN t.id = ta.id THEN 1 ELSE 0 END) OVER (ORDER BY ss.id) AS awaygoal_total
       ");
       $this->db->from('scoringsummary AS ss');
       $this->db->join('players AS g','ss.goal_player_id = g.id');
       $this->db->join('teams AS t','g.team_id = t.id');
+      $this->db->join('schedule AS s','ss.schedule_id = s.id');
+      $this->db->join('teams AS th','s.hometeam_id = th.id');
+      $this->db->join('teams AS ta','s.awayteam_id = ta.id');
       $this->db->join('players AS a1','ss.assist1_player_id = a1.id','left');
       $this->db->join('players AS a2','ss.assist2_player_id = a2.id','left');
       $this->db->join('goaltypes AS gt','CONV(ss.goaltype,16,10) = gt.id');

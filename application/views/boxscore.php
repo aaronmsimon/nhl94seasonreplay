@@ -110,9 +110,13 @@
             <td>
               <div class="goal-scorer left">{{ goal.goal }} ({{ goal.goalnum }})</div>
               <div class="assists left">{{ goal.assists }}</div>
-               <table class="goal-details">
+               <table class="goal-details" style="width:{% if goal.goalsuffix is empty %}200{% else %}225{% endif %}px;">
                   <tr>
                     <td class="goal-time">{{ goal.timeelapsed }} / {{ goal.period }}</td>
+                    <td class="goal-time">
+                      <span style="{% if goal.abbr == goal.away_abbr %}font-weight:bold;{% endif %}">{{ goal.away_abbr }} {{ goal.awaygoal_total }}</span>, 
+                      <span style="{% if goal.abbr == goal.home_abbr %}font-weight:bold;{% endif %}">{{ goal.home_abbr }} {{ goal.homegoal_total }}</span>
+                    </td>
                     {% if goal.goalsuffix != "" %}
                     <td class="goal-suffix">{{ goal.goalsuffix }}</td>
                     {% endif %}
