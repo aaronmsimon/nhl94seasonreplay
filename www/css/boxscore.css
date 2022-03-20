@@ -89,3 +89,7 @@ td.teamcol {
 .goal-suffix {
     width: 25px;
 }
+
+table.border td {
+    border-bottom: 1px solid #ECECEC;
+}

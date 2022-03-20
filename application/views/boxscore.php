@@ -46,7 +46,7 @@
     {% for team in playerstats %}
     <div class="section">
       <div>{{ team.city }} {{ team.name }}</div>
-      <table>
+      <table class="border">
         <tr>
           <th>#</th>
           <th>Name</th>
@@ -81,7 +81,7 @@
 </div>
 <div id="col2" class="col">
     <div class="section">
-      <table>
+      <table class="border">
           <thead>
               <th></th>
               <th>1ST</th>
@@ -104,7 +104,7 @@
     <div id="scoring-summary" class="section">
       {% for goal in scoringsummary %}
       <div class="goal">
-        <table>
+        <table class="border">
           <tr>
             <td style="width:60px;"><img src="images/teamlogos/{{ goal.abbr }}.png" height="30" /></td>
             <td>
@@ -136,7 +136,7 @@
     </div>
     <div class="section subtle">Penalties</div>
     <div id="penaltysummary" class="section">
-      <table>
+      <table class="border">
       <tr>
         <th>Per / Time</th>
         <th>Team</th>
@@ -153,7 +153,7 @@
     </div>
     <div class="section subtle">Shots On Goal</div>
     <div class="section">
-      <table>
+      <table class="border">
       {% for row in sog %}
       <tr>
           <td>{{ row.periodlabel }}</td>
