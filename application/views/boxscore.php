@@ -138,9 +138,9 @@
     <div id="penaltysummary" class="section">
       <table>
       <tr>
-        <td>Per / Time</td>
-        <td>Team</td>
-        <td>Player / Penalty</td>
+        <th>Per / Time</th>
+        <th>Team</th>
+        <th>Player / Penalty</th>
       </tr>
       {% for penalty in penaltysummary %}
       <tr>
@@ -152,6 +152,17 @@
       </table>
     </div>
     <div class="section subtle">Shots On Goal</div>
+    <div class="section">
+      <table>
+      {% for row in sog %}
+      <tr>
+          <td>{{ row.periodlabel }}</td>
+          <td>{{ row.away }}</td>
+          <td>{{ row.home }}</td>
+      </tr>
+      {% endfor %}
+      </table>
+    </div>
 </div>
 
 {% endblock %}

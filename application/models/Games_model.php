@@ -140,6 +140,44 @@
       return $query->result();
     }
 
+    public function getSOGByPeriodByScheduleID($scheduleid) {
+      $this->db->select('periodlabel,away,home');
+      $this->db->from("
+        (SELECT 0 AS period, 'Period' AS PeriodLabel, MAX(CASE WHEN s.awayteam_id = t.id THEN t.abbr ELSE '' END) AS Away,
+          MAX(CASE WHEN s.hometeam_id = t.id THEN t.abbr ELSE '' END) AS Home
+        FROM games g
+        JOIN teams t ON g.team_id = t.id
+        JOIN schedule s ON g.schedule_id = s.id
+        WHERE s.id = $scheduleid
+        
+        UNION
+        
+        SELECT ps.period, CASE WHEN ps.period < 4 THEN ps.period ELSE 'OT' END AS PeriodLabel,
+          SUM(CASE WHEN s.awayteam_id = t.id THEN ps.shots ELSE 0 END) AS Away,
+          SUM(CASE WHEN s.hometeam_id = t.id THEN ps.shots ELSE 0 END) AS Home
+        FROM periodstats ps
+        JOIN games g on ps.game_id = g.id
+        JOIN teams t ON g.team_id = t.id
+        JOIN schedule s ON g.schedule_id = s.id
+        WHERE s.id = $scheduleid
+        GROUP BY ps.period
+        
+        UNION
+        
+        SELECT 5 AS period, 'Total' AS PeriodLabel,
+          SUM(CASE WHEN s.awayteam_id = t.id THEN ps.shots ELSE 0 END) AS Away,
+          SUM(CASE WHEN s.hometeam_id = t.id THEN ps.shots ELSE 0 END) AS Home
+        FROM periodstats ps
+        JOIN games g on ps.game_id = g.id
+        JOIN teams t ON g.team_id = t.id
+        JOIN schedule s ON g.schedule_id = s.id
+        WHERE s.id = $scheduleid) sog
+      ");
+      $this->db->order_by('period ASC');
+      $query = $this->db->get();
+      return $query->result();
+    }
+
     public function editgoals($goals) {
       // $result = print_r($json,true);
       // file_put_contents('www/scoringsummary.txt', $result);

@@ -28,6 +28,7 @@ class Games extends MY_Controller {
 		$team->playerstats = $this->games_model->getPlayerStatsByGameID($team->gameid);
 	}
 	$this->data['playerstats'] = $teams;
+	$this->data['sog'] = $this->games_model->getSOGByPeriodByScheduleID($scheduleid);
 	$this->load->view('boxscore',$this->data);
   }
 
