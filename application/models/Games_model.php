@@ -47,7 +47,7 @@
     }
 
     public function getScoringSummary($scheduleid) {
-      $this->db->select("ss.period, TIME_FORMAT(SEC_TO_TIME(ss.timeelapsed),'%i:%s') AS timeelapsed, t.abbr,
+      $this->db->select("ss.period, TIME_FORMAT(SEC_TO_TIME(ss.timeelapsed),'%i:%s') AS timeelapsed, t.abbr, t.color,
         CONCAT(g.firstname,' ',g.lastname) As goal, g.id AS playerid_g,
         COALESCE(num.goals,0) + 1 AS goalnum,
         CONCAT(SUBSTRING(a1.firstname,1,1),'. ',a1.lastname) AS assist1, a1.id AS playerid_a1,

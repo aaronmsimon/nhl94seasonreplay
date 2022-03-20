@@ -84,9 +84,9 @@
       <table>
           <thead>
               <th></th>
-              <th>1st</th>
-              <th>2nd</th>
-              <th>3rd</th>
+              <th>1ST</th>
+              <th>2ND</th>
+              <th>3RD</th>
           </thead>
           <tbody>
               {% for team in periodstats %}
@@ -116,15 +116,15 @@
                 <a href="{{ base_url }}players/profile/{{ goal.playerid_a1 }}">{{ goal.assist1 }}</a>{% if goal.assist2 is not empty %}, <a href="{{ base_url }}players/profile/{{ goal.playerid_a2 }}">{{ goal.assist2 }}</a>{% endif %}
                 {% endif %}
               </div>
-               <table class="goal-details" style="width:{% if goal.goalsuffix is empty %}200{% else %}225{% endif %}px;">
+               <table style="width:{% if goal.goalsuffix is empty %}200{% else %}225{% endif %}px;">
                   <tr>
-                    <td class="goal-time">{{ goal.timeelapsed }} / {{ goal.period }}</td>
-                    <td class="goal-time">
+                    <td class="goal-time" style="border:1px solid #{{ goal.color }};color:#{{ goal.color }};">{{ goal.timeelapsed }} / {{ goal.period }}</td>
+                    <td class="goal-time" style="border:1px solid #{{ goal.color }};background-color:#{{ goal.color }};color:white;">
                       <span style="{% if goal.abbr == goal.away_abbr %}font-weight:bold;{% endif %}">{{ goal.away_abbr }} {{ goal.awaygoal_total }}</span>, 
                       <span style="{% if goal.abbr == goal.home_abbr %}font-weight:bold;{% endif %}">{{ goal.home_abbr }} {{ goal.homegoal_total }}</span>
                     </td>
                     {% if goal.goalsuffix != "" %}
-                    <td class="goal-suffix">{{ goal.goalsuffix }}</td>
+                    <td class="goal-suffix" style="border:1px solid #{{ goal.color }};color:#{{ goal.color }};">{{ goal.goalsuffix }}</td>
                     {% endif %}
                   </tr>
                 </table>
