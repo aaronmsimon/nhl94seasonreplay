@@ -3,7 +3,11 @@ body {
   overflow-x: hidden;
 }
 a {
+  color: black;
   text-decoration: none;
+}
+a:hover {
+  color: #125dc7;
 }
 .hidden {display: none;}
 .left {
