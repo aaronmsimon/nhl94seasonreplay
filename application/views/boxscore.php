@@ -87,14 +87,21 @@
               <th>1ST</th>
               <th>2ND</th>
               <th>3RD</th>
+              {% if otflag %}<th>OT</th>{% endif %}
+              <th>T</th>
           </thead>
           <tbody>
               {% for team in periodstats %}
+              {% set totalGoals = 0 %}
               <tr>
                   <td><img src="images/teamlogos/{{ team.abbr }}.png" height="30" /></td>
                   {% for period in team.periodstats %}
+                    {% if period.period <= 3 or otflag %}
                       <td>{{ period.goals }}</td>
+                      {% set totalGoals = totalGoals + period.goals %}
+                    {% endif %}
                   {% endfor %}
+                  <td>{{ totalGoals }}</td>
               </tr>
               {% endfor %}
           </tbody>
@@ -155,11 +162,13 @@
     <div class="section">
       <table class="border">
       {% for row in sog %}
-      <tr>
-          <td>{{ row.periodlabel }}</td>
-          <td>{{ row.away }}</td>
-          <td>{{ row.home }}</td>
-      </tr>
+        {% if row.period != 4 or otflag %}
+        <tr>
+            <td>{{ row.periodlabel }}</td>
+            <td>{{ row.away }}</td>
+            <td>{{ row.home }}</td>
+        </tr>
+        {% endif %}
       {% endfor %}
       </table>
     </div>

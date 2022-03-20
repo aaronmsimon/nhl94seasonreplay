@@ -141,7 +141,7 @@
     }
 
     public function getSOGByPeriodByScheduleID($scheduleid) {
-      $this->db->select('periodlabel,away,home');
+      $this->db->select('period,periodlabel,away,home');
       $this->db->from("
         (SELECT 0 AS period, 'Period' AS PeriodLabel, MAX(CASE WHEN s.awayteam_id = t.id THEN t.abbr ELSE '' END) AS Away,
           MAX(CASE WHEN s.hometeam_id = t.id THEN t.abbr ELSE '' END) AS Home
@@ -176,6 +176,31 @@
       $this->db->order_by('period ASC');
       $query = $this->db->get();
       return $query->result();
+    }
+
+    public function doesGameHaveOT($scheduleid) {
+      // Check if game ended in a tie
+      //select count(*) as row_count from results where schedule_id = 143 and GameResult = 'T'
+      $this->db->select('COUNT(*) AS row_count');
+      $this->db->from('results');
+      $this->db->where(array(
+        'gameresult' => 'T',
+        'schedule_id' => $scheduleid
+      ));
+      $tieflag = $this->db->get()->row();
+
+      // Check if an OT goal was scored
+      $this->db->select('SUM(ps.goals) as OTGoals');
+      $this->db->from('periodstats as ps');
+      $this->db->join('games as g','ps.game_id = g.id');
+      $this->db->join('schedule as s','g.schedule_id = s.id');
+      $this->db->where(array(
+        'ps.period' => 4,
+        's.id' => $scheduleid
+      ));
+      $otgoals = $this->db->get()->row();
+      
+      return ($tieflag->row_count > 0 || $otgoals->OTGoals > 0);
     }
 
     public function editgoals($goals) {
