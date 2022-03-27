@@ -8,8 +8,9 @@
   {{ team.city }} {{ team.name }}
 </div>
 <div id="nav-sub" class="nhl94">
+  <a href="{{ base_url }}teams/home/{{ team.abbr | lower }}">HOME</a>
   <a href="{{ base_url }}teams/roster/{{ team.abbr | lower }}">ROSTER</a>
-  <a href="{{ base_url }}teams/games/{{ team.abbr | lower }}">GAMES</a>
+  <a href="{{ base_url }}teams/schedule/{{ team.abbr | lower }}">SCHEDULE</a>
   <a href="{{ base_url }}teams/stats/{{ team.abbr | lower }}">STATS</a>
 </div>
 {% block subcontent %}
