@@ -30,7 +30,7 @@
       </tr>
       {% for team in div.teams %}
       <tr>
-        <td><a href="{{ base_url }}teams/roster/{{ team.abbr | lower }}"><img src="images/teamlogos/{{ team.abbr }}.png" height="20" /><span> {{ team.city }} {{ team.name }}</span></a></td>
+        <td><a href="{{ base_url }}teams/home/{{ team.abbr | lower }}"><img src="images/teamlogos/{{ team.abbr }}.png" height="20" /><span> {{ team.city }} {{ team.name }}</span></a></td>
         <td class="right" width="20">{{ team.gamesplayed }}</td>
         <td class="right" width="20">{{ team.wins }}</td>
         <td class="right" width="20">{{ team.losses }}</td>
