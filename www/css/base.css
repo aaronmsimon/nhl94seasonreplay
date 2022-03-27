@@ -111,3 +111,6 @@ a:hover {
 #nav-sub a:hover {
   color: yellow;
 }
+
+.green {color: #094;}
+.red {color: #D00;}
