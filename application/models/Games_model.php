@@ -140,6 +140,29 @@
       return $query->result();
     }
 
+    public function getGoalieStatsByGameID($gameid) {
+      $this->db->select("p.id, p.pos, p.num, p.firstname, p.lastname,
+        s.ga,s.shots,s.toi");
+      $this->db->from('players AS p');
+      $this->db->join("
+      (SELECT game_id,player_id,
+          sum(goals) as ga,
+          sum(sog) as shots,
+          TIME_FORMAT(SEC_TO_TIME(sum(toi) / SUM(CASE WHEN toi > 0 THEN 1 ELSE 0 END)),'%i:%s') as toi
+          FROM playerstats
+          GROUP BY game_id,player_id
+          HAVING SUM(toi) > 0) AS s",'p.id = s.player_id');
+      $this->db->join('games as g','s.game_id = g.id');
+      $this->db->where(array(
+          's.game_id' => $gameid,
+          'p.pos' => 'G'
+      ));
+      $this->db->order_by('p.num ASC');
+
+      $query = $this->db->get();
+      return $query->result();
+    }
+
     public function getSOGByPeriodByScheduleID($scheduleid) {
       $this->db->select('period,periodlabel,away,home');
       $this->db->from("

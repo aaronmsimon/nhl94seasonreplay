@@ -60,7 +60,7 @@
           <th>REC'D</th>
           <th>TOI</th>
         </tr>
-        {% for player in team.playerstats %}
+        {% for player in team.playerstats.skaters %}
         <tr>
           <td>{{ player.num }}</td>
           <td class="left"><a href="{{ base_url }}players/profile/{{ player.id }}">{{ player.firstname }} {{ player.lastname }}</a></td>
@@ -72,6 +72,24 @@
           <td>{{ player.sog }}</td>
           <td>{{ player.chkf }}</td>
           <td>{{ player.chka }}</td>
+          <td>{{ player.toi }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <table class="border">
+        <tr>
+          <th>#</th>
+          <th>Goalie</th>
+          <th>SAVE-SHOTS</th>
+          <th>SV%</th>
+          <th>TOI</th>
+        </tr>
+        {% for player in team.playerstats.goalies %}
+        <tr>
+          <td>{{ player.num }}</td>
+          <td class="left"><a href="{{ base_url }}players/profile/{{ player.id }}">{{ player.firstname }} {{ player.lastname }}</a></td>
+          <td>{{ player.shots - player.ga }}-{{ player.shots }}</td>
+          <td>{{ "%0.3f" | format((player.shots - player.ga) / player.shots) }}</td>
           <td>{{ player.toi }}</td>
         </tr>
         {% endfor %}

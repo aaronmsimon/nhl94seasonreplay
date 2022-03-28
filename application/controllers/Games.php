@@ -25,7 +25,8 @@ class Games extends MY_Controller {
     $this->data['penaltysummary'] = $this->games_model->getPenaltySummary($scheduleid);
 	$teams = $this->games_model->getTeamsByScheduleID($scheduleid);
 	foreach ($teams as $team) {
-		$team->playerstats = $this->games_model->getPlayerStatsByGameID($team->gameid);
+		$team->playerstats['skaters'] = $this->games_model->getPlayerStatsByGameID($team->gameid);
+		$team->playerstats['goalies'] = $this->games_model->getGoalieStatsByGameID($team->gameid);
 	}
 	$this->data['playerstats'] = $teams;
 	$this->data['sog'] = $this->games_model->getSOGByPeriodByScheduleID($scheduleid);
