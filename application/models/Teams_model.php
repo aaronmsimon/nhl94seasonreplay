@@ -40,7 +40,8 @@
           SUM(CASE WHEN r.GameResult = 'W' THEN 1 ELSE 0 END) OVER (ORDER BY s.id),'-',
           SUM(CASE WHEN r.GameResult = 'L' THEN 1 ELSE 0 END) OVER (ORDER BY s.id),'-',
           SUM(CASE WHEN r.GameResult = 'T' THEN 1 ELSE 0 END) OVER (ORDER BY s.id)
-        ) AS record
+        ) AS record,
+        sp.lastname AS topplayer
       ");
       $this->db->from('games AS g');
       $this->db->join('schedule AS s','g.schedule_id = s.id');
@@ -59,6 +60,7 @@
           WHERE p.pos = 'G') AS gpos",
         'gpos on g.id = gpos.game_id and gpos.toirank = 1'
       );
+      $this->db->join('(SELECT * FROM (SELECT game_id, firstname, lastname, ROW_NUMBER() OVER(PARTITION BY game_id ORDER BY starrank ASC) AS teamrank FROM starpoints) tr WHERE teamrank = 1) AS sp','g.id = sp.game_id');
       $this->db->where('t.id',$teamid);
 
       $query = $this->db->get();
