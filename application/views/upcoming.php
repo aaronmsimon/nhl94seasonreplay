@@ -54,7 +54,19 @@
           <td><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</td>
           <td>@ <img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</td>
           <td class="gameid center">{{ game.id }}</td>
-          <td><img alt="ESPN+" class="Image Logo__Network network-espn+" data-mptype="image" src="https://a.espncdn.com/redesign/assets/img/logos/espnplus/ESPN+.svg"></td>
+          <td>
+            {% if game.homegoals is null %}
+              <img alt="ESPN+" class="Image Logo__Network network-espn+" data-mptype="image" src="https://a.espncdn.com/redesign/assets/img/logos/espnplus/ESPN+.svg">
+            {% else %}
+              <a href="{{ base_url }}games/boxscore/{{ game.id }}">
+                {% if game.homegoals > game.awaygoals %}
+                  {{ game.homelogo }} {{ game.homegoals }}, {{ game.awaylogo }} {{ game.awaygoals }}
+                {% else %}
+                  {{ game.awaylogo }} {{ game.awaygoals }}, {{ game.homelogo }} {{ game.homegoals }}
+                {% endif %}
+              </a>
+            {% endif %}            
+          </td>
           <td class="actions center">
             {% if gamestatus == 0 %}
               {% if game.id == currentgame %}
@@ -67,13 +79,7 @@
               {% if game.homegoals is null %}
                 <button class="playgame">Play Game</button>
               {% else %}
-              <a href="{{ base_url }}games/boxscore/{{ game.id }}">
-                {% if game.homegoals > game.awaygoals %}
-                  {{ game.homelogo }} {{ game.homegoals }}, {{ game.awaylogo }} {{ game.awaygoals }}
-                {% else %}
-                  {{ game.awaylogo }} {{ game.awaygoals }}, {{ game.homelogo }} {{ game.homegoals }}
-                {% endif %}
-              </a>
+                {{ game.topplayer }}
               {% endif %}
             {% endif %}
           </td>

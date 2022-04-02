@@ -62,12 +62,13 @@
     }
 
     public function getGamesByDate($gameDate) {
-        $this->db->select('s.id, s.gamedate, h.abbr AS homelogo, h.city AS home, gh.goals AS homegoals, a.abbr AS awaylogo, a.city AS away, ga.goals AS awaygoals');
+        $this->db->select('s.id, s.gamedate, h.abbr AS homelogo, h.city AS home, gh.goals AS homegoals, a.abbr AS awaylogo, a.city AS away, ga.goals AS awaygoals, CONCAT(sp.firstname," ",sp.lastname) AS topplayer');
         $this->db->from('schedule AS s');
         $this->db->join('teams AS h','s.hometeam_id = h.id');
         $this->db->join('teams AS a','s.awayteam_id = a.id');
-        $this->db->join('games as gh','s.id = gh.schedule_id AND gh.team_id = h.id','left');
-        $this->db->join('games as ga','s.id = ga.schedule_id AND ga.team_id = a.id','left');
+        $this->db->join('games AS gh','s.id = gh.schedule_id AND gh.team_id = h.id','left');
+        $this->db->join('games AS ga','s.id = ga.schedule_id AND ga.team_id = a.id','left');
+        $this->db->join('(SELECT schedule_id, firstname, lastname FROM starpoints WHERE starrank = 1) AS sp','s.id = sp.schedule_id','left');
         $this->db->where('s.gamedate',$gameDate);
         $this->db->order_by('s.id ASC');
         $query = $this->db->get();
