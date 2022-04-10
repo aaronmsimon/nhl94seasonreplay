@@ -226,6 +226,17 @@
       return ($tieflag->row_count > 0 || $otgoals->OTGoals > 0);
     }
 
+    public function getStarPlayers($scheduleid) {
+      $this->db->select('player_id, num, abbr, pos, firstname, lastname, starrank');
+      $this->db->from('starpoints');
+      $this->db->where(array(
+        'schedule_id' => $scheduleid,
+        'starrank <= 3' => null
+      ));
+      $query = $this->db->get();
+      return $query->result();
+    }
+
     public function editgoals($goals) {
       // $result = print_r($json,true);
       // file_put_contents('www/scoringsummary.txt', $result);

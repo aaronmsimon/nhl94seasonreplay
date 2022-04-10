@@ -64,15 +64,15 @@
         <tr>
           <td>{{ player.num }}</td>
           <td class="left"><a href="{{ base_url }}players/profile/{{ player.id }}">{{ player.firstname }} {{ player.lastname }}</a></td>
-          <td>{{ player.g }}</td>
-          <td>{{ player.a }}</td>
-          <td>{{ player.pts }}</td>
-          <td>{{ player.plusminus }}</td>
-          <td>{{ player.pim }}</td>
-          <td>{{ player.sog }}</td>
-          <td>{{ player.chkf }}</td>
-          <td>{{ player.chka }}</td>
-          <td>{{ player.toi }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.g }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.a }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.pts }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.plusminus }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.pim }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.sog }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.chkf }}</td>
+          <td style="width:5%;font-size:13px;">{{ player.chka }}</td>
+          <td style="width:10%;font-size:13px;">{{ player.toi }}</td>
         </tr>
         {% endfor %}
       </table>
@@ -187,6 +187,20 @@
             <td>{{ row.home }}</td>
         </tr>
         {% endif %}
+      {% endfor %}
+      </table>
+    </div>
+    <div class="section subtle">Three Stars of the Game</div>
+    <div id="threestars" class="section">
+      <table class="border">
+      {% for player in starplayers %}
+        <tr>
+            <td><a href="{{ base_url }}players/profile/{{ player.player_id }}"><img class="player-image" src="images/players/{{ player.player_id }}.jpg" onError="this.onerror=null;this.src='images/players/no-image.jpg';" height="50" /></a></td>
+            <td>
+              <div class="starplayer"><a href="{{ base_url }}players/profile/{{ player.player_id }}">{{ player.firstname }} {{ player.lastname }}</a></div>
+              <div class="info">#{{ player.num }} &bull; {{ player.abbr }} &bull; {{ player.pos }}</div>
+            </td>
+        </tr>
       {% endfor %}
       </table>
     </div>

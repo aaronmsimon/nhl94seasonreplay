@@ -31,6 +31,7 @@ class Games extends MY_Controller {
 	$this->data['playerstats'] = $teams;
 	$this->data['sog'] = $this->games_model->getSOGByPeriodByScheduleID($scheduleid);
 	$this->data['otflag'] = $this->games_model->doesGameHaveOT($scheduleid);
+	$this->data['starplayers'] = $this->games_model->getStarPlayers($scheduleid);
 	$this->load->view('boxscore',$this->data);
   }
 

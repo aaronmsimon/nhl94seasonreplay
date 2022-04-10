@@ -93,3 +93,15 @@ td.teamcol {
 table.border td {
     border-bottom: 1px solid #ECECEC;
 }
+
+#threestars .player-image {
+    border-radius: 25px;
+    border: 1px solid #ECECEC;
+}
+#threestars .starplayer {
+    font-weight: bold;
+    font-size: 16px;
+}
+#threestars .info {
+    font-size: 12px;
+}
