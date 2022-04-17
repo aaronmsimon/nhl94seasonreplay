@@ -52,8 +52,8 @@
     </tr>
     {% for game in date.games.unplayed %}
       <tr class="game-row">
-          <td><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</td>
-          <td>@ <img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</td>
+          <td><a href="{{ base_url }}teams/home/{{ game.awaylogo }}"><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</a></td>
+          <td>@ <a href="{{ base_url }}teams/home/{{ game.homelogo }}"><img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</a></td>
           <td class="gameid center">{{ game.id }}</td>
           <td><img alt="ESPN+" class="Image Logo__Network network-espn+" data-mptype="image" src="https://a.espncdn.com/redesign/assets/img/logos/espnplus/ESPN+.svg"></td>
           <td class="actions center">
@@ -84,8 +84,8 @@
     </tr>
     {% for game in date.games.played %}
       <tr class="game-row">
-          <td><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</td>
-          <td>@ <img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</td>
+          <td><a href="{{ base_url }}teams/home/{{ game.awaylogo }}"><img src="images/teamlogos/{{ game.awaylogo }}.png" height="15" /> {{ game.away }}</a></td>
+          <td>@ <a href="{{ base_url }}teams/home/{{ game.homelogo }}"><img src="images/teamlogos/{{ game.homelogo }}.png" height="15" /> {{ game.home }}</a></td>
           <td class="gameid center">{{ game.id }}</td>
           <td>
             <a href="{{ base_url }}games/boxscore/{{ game.id }}">
